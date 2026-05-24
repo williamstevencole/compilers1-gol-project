@@ -1,0 +1,136 @@
+program
+    -> topDeclList EOF 
+
+topDeclList
+    -> topDecl topDeclList | epsilon
+
+topDecl
+    -> varDecl | funcDecl
+
+(* ── Declarations ─────────────────────────────────────── *)
+
+varDecl
+    -> "var" IDENTIFIER type ( "=" expr )? ";"
+
+type
+    -> "int" | "bool"
+
+funcDecl
+    -> "func" IDENTIFIER "(" paramList? ")" type? block
+
+paramList
+    -> param ( "," paramList )?
+
+param
+    -> "ref"? IDENTIFIER type
+    
+(* ── Statements ────────────────────────────────────────── *)
+
+block
+    -> "{" stmtList "}"
+
+stmtList
+    -> stmt stmtList | epsilon
+
+stmt
+    -> varDecl
+    | shortDecl
+    | assignStmt
+    | ifStmt
+    | forStmt
+    | returnStmt
+    | callStmt
+    | printStmt
+
+shortDecl
+    -> IDENTIFIER ":=" expr ";"
+
+assignStmt
+    -> IDENTIFIER "=" expr ";"
+
+ifStmt
+    -> "if" expr block elseIfList elsePart?
+
+elseIfList
+    -> "else" "if" expr block elseIfList | epsilon
+
+elsePart
+    -> "else" block
+
+forStmt
+    -> "for" expr block
+
+returnStmt
+    -> "return" expr? ";"
+
+callStmt
+    -> IDENTIFIER "(" argList? ")" ";"
+
+printStmt
+    -> printOp "(" printArgList ")" ";"
+
+printOp
+    -> "print" | "println"
+
+printArgList
+    -> printArg ( "," printArgList )?
+
+printArg
+    -> expr | STRING_LIT
+
+argList
+    -> arg ( "," argList )?
+
+arg
+    -> "&"? expr
+
+(* ── Expressions ────────────────────────────────────────── *)
+
+expr
+    -> orExpr
+
+orExpr
+    -> andExpr ( "||" orExpr )?
+
+andExpr
+    -> notExpr ( "&&" andExpr )?
+
+notExpr
+    -> "!" notExpr | relExpr
+
+relExpr
+    -> addExpr ( relOp addExpr )?
+
+relOp
+    -> "==" | "!=" | "<" | ">" | "<=" | ">="
+
+addExpr
+    -> mulExpr addExprTail
+
+addExprTail
+    -> "+" mulExpr addExprTail
+    | "-" mulExpr addExprTail
+    | epsilon
+
+mulExpr
+    -> unaryExpr mulExprTail
+
+mulExprTail
+    -> "*" unaryExpr mulExprTail
+    | "/" unaryExpr mulExprTail
+    | "%" unaryExpr mulExprTail
+    | epsilon
+
+unaryExpr
+    -> "-" unaryExpr | primary
+
+primary
+    -> INT_LIT
+    | "true"
+    | "false"
+    | IDENTIFIER
+    | callExpr
+    | "(" expr ")"
+
+callExpr
+    -> IDENTIFIER "(" argList? ")"
