@@ -14,7 +14,7 @@ digraph INITIAL {
         STATE_INITIAL -> STATE_UNK [label="\\v-\\x1f"];
         STATE_INITIAL -> STATE_WHITESPACE [label="\\x20"];
         STATE_INITIAL -> STATE_OP_NOT [label="!"];
-        STATE_INITIAL -> STATE_STRING_START [label="\""];
+        STATE_INITIAL -> STATE_STR_START [label="\""];
         STATE_INITIAL -> STATE_UNK [label="#-$"];
         STATE_INITIAL -> STATE_SINGLE_OP [label="%"];
         STATE_INITIAL -> STATE_AMPERSAND [label="&"];
@@ -22,18 +22,18 @@ digraph INITIAL {
         STATE_INITIAL -> STATE_SINGLE_OP [label="(--"];
         STATE_INITIAL -> STATE_UNK [label="."];
         STATE_INITIAL -> STATE_SINGLE_OP [label="/"];
-        STATE_INITIAL -> STATE_FIRST_INT_LIT [label="0-9"];
+        STATE_INITIAL -> STATE_INT_FIRST [label="0-9"];
         STATE_INITIAL -> STATE_COLON [label=":"];
         STATE_INITIAL -> STATE_SINGLE_OP [label=";"];
         STATE_INITIAL -> STATE_OP_LT [label="<"];
         STATE_INITIAL -> STATE_OP_ASSIGN [label="="];
         STATE_INITIAL -> STATE_OP_GT [label=">"];
         STATE_INITIAL -> STATE_UNK [label="?-@"];
-        STATE_INITIAL -> STATE_FIRST_IDENT [label="A-Z"];
+        STATE_INITIAL -> STATE_IDENT_FIRST [label="A-Z"];
         STATE_INITIAL -> STATE_UNK [label="[-^"];
-        STATE_INITIAL -> STATE_FIRST_IDENT [label="_"];
+        STATE_INITIAL -> STATE_IDENT_FIRST [label="_"];
         STATE_INITIAL -> STATE_UNK [label="`"];
-        STATE_INITIAL -> STATE_FIRST_IDENT [label="a-z"];
+        STATE_INITIAL -> STATE_IDENT_FIRST [label="a-z"];
         STATE_INITIAL -> STATE_SINGLE_OP [label="{"];
         STATE_INITIAL -> STATE_PIPE [label="|"];
         STATE_INITIAL -> STATE_SINGLE_OP [label="}"];
@@ -64,21 +64,21 @@ digraph INITIAL {
 
 /*ACCEPT 9*/    STATE_SINGLE_OP [label="SINGLE_OP [9]",peripheries=2];
 
-/*ACCEPT 10*/   STATE_FIRST_INT_LIT [label="FIRST_INT_LIT [10]",peripheries=2];
-        STATE_FIRST_INT_LIT -> STATE_REST_INT_LIT [label="0-9"];
+/*ACCEPT 10*/   STATE_INT_FIRST [label="INT_FIRST [10]",peripheries=2];
+        STATE_INT_FIRST -> STATE_INT_REST [label="0-9"];
 
-/*ACCEPT 13*/   STATE_STRING_START [label="STR_START [13]",peripheries=2];
-        STATE_STRING_START -> STATE_STRING_MID [label="\\0-!"];
-        STATE_STRING_START -> STATE_STRING_LIT [label="\""];
-        STATE_STRING_START -> STATE_STRING_MID [label="#-["];
-        STATE_STRING_START -> STATE_STRING_ESCAPE [label="\\"];
-        STATE_STRING_START -> STATE_STRING_MID [label="]-\\xff"];
+/*ACCEPT 13*/   STATE_STR_START [label="STR_START [13]",peripheries=2];
+        STATE_STR_START -> STATE_STR_REST [label="\\0-!"];
+        STATE_STR_START -> STATE_STR_END [label="\""];
+        STATE_STR_START -> STATE_STR_REST [label="#-["];
+        STATE_STR_START -> STATE_STR_ESCAPE [label="\\"];
+        STATE_STR_START -> STATE_STR_REST [label="]-\\xff"];
 
-/*ACCEPT 12*/   STATE_FIRST_IDENT [label="FIRST_IDENT [12]",peripheries=2];
-        STATE_FIRST_IDENT -> STATE_REST_IDENT [label="0-9"];
-        STATE_FIRST_IDENT -> STATE_REST_IDENT [label="A-Z"];
-        STATE_FIRST_IDENT -> STATE_REST_IDENT [label="_"];
-        STATE_FIRST_IDENT -> STATE_REST_IDENT [label="a-z"];
+/*ACCEPT 12*/   STATE_IDENT_FIRST [label="IDENT_FIRST [12]",peripheries=2];
+        STATE_IDENT_FIRST -> STATE_IDENT_REST [label="0-9"];
+        STATE_IDENT_FIRST -> STATE_IDENT_REST [label="A-Z"];
+        STATE_IDENT_FIRST -> STATE_IDENT_REST [label="_"];
+        STATE_IDENT_FIRST -> STATE_IDENT_REST [label="a-z"];
 
 /*ACCEPT 2*/    STATE_ASSIGN_SHORT [label="ASSIGN_SHORT [2]",peripheries=2];
 
@@ -94,27 +94,27 @@ digraph INITIAL {
 
 /*ACCEPT 8*/    STATE_OP_AND [label="OP_AND [8]",peripheries=2];
 
-/*ACCEPT 10*/   STATE_REST_INT_LIT [label="REST_INT_LIT [10]",peripheries=2];
-        STATE_REST_INT_LIT -> STATE_REST_INT_LIT [label="0-9"];
+/*ACCEPT 10*/   STATE_INT_REST [label="INT_REST [10]",peripheries=2];
+        STATE_INT_REST -> STATE_INT_REST [label="0-9"];
 
-/*STATE*/   STATE_STRING_MID [label="STR_MID"];
-        STATE_STRING_MID -> STATE_STRING_MID [label="\\0-!"];
-        STATE_STRING_MID -> STATE_STRING_LIT [label="\""];
-        STATE_STRING_MID -> STATE_STRING_MID [label="#-["];
-        STATE_STRING_MID -> STATE_STRING_ESCAPE [label="\\"];
-        STATE_STRING_MID -> STATE_STRING_MID [label="]-\\xff"];
+/*STATE*/   STATE_STR_REST [label="STR_REST"];
+        STATE_STR_REST -> STATE_STR_REST [label="\\0-!"];
+        STATE_STR_REST -> STATE_STR_END [label="\""];
+        STATE_STR_REST -> STATE_STR_REST [label="#-["];
+        STATE_STR_REST -> STATE_STR_ESCAPE [label="\\"];
+        STATE_STR_REST -> STATE_STR_REST [label="]-\\xff"];
 
-/*STATE*/   STATE_STRING_ESCAPE [label="STR_ESCAPE"];
-        STATE_STRING_ESCAPE -> STATE_STRING_MID [label="\\0-\\t"];
-        STATE_STRING_ESCAPE -> STATE_STRING_MID [label="\\v-\\xff"];
+/*STATE*/   STATE_STR_ESCAPE [label="STR_ESCAPE"];
+        STATE_STR_ESCAPE -> STATE_STR_REST [label="\\0-\\t"];
+        STATE_STR_ESCAPE -> STATE_STR_REST [label="\\v-\\xff"];
 
-/*ACCEPT 11*/   STATE_STRING_LIT [label="STRING_LIT [11]",peripheries=2];
+/*ACCEPT 11*/   STATE_STR_END [label="STR_END [11]",peripheries=2];
 
-/*ACCEPT 12*/   STATE_REST_IDENT [label="REST_IDENT [12]",peripheries=2];
-        STATE_REST_IDENT -> STATE_REST_IDENT [label="0-9"];
-        STATE_REST_IDENT -> STATE_REST_IDENT [label="A-Z"];
-        STATE_REST_IDENT -> STATE_REST_IDENT [label="_"];
-        STATE_REST_IDENT -> STATE_REST_IDENT [label="a-z"];
+/*ACCEPT 12*/   STATE_IDENT_REST [label="IDENT_REST [12]",peripheries=2];
+        STATE_IDENT_REST -> STATE_IDENT_REST [label="0-9"];
+        STATE_IDENT_REST -> STATE_IDENT_REST [label="A-Z"];
+        STATE_IDENT_REST -> STATE_IDENT_REST [label="_"];
+        STATE_IDENT_REST -> STATE_IDENT_REST [label="a-z"];
 
 /*ACCEPT 13*/   STATE_UNK [label="UNK [13]",peripheries=2];
 }
