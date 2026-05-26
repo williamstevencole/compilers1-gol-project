@@ -1,3 +1,10 @@
+# Rules :
+{ } : significa "0 o más repeticiones"
+[ ] : significa "0 o 1 repetición"
+( ) : se usa para agrupar elementos
+
+
+
 program
     = { topDecl } EOF ;
 
@@ -28,19 +35,16 @@ block
 
 stmt
     = varDecl
-    | shortDecl
-    | assignStmt
+    | IDENTIFIER stmtTail
     | ifStmt
     | forStmt
     | returnStmt
-    | callStmt
     | printStmt ;
 
-shortDecl
-    = IDENTIFIER ":=" expr ";" ;
-
-assignStmt
-    = IDENTIFIER "=" expr ";" ;
+stmtTail
+    = ":=" expr ";"
+    | "=" expr ";"
+    | "(" [ argList ] ")" ";" ;
 
 ifStmt
     = "if" expr block { "else" "if" expr block } [ "else" block ] ;
@@ -50,9 +54,6 @@ forStmt
 
 returnStmt
     = "return" [ expr ] ";" ;
-
-callStmt
-    = IDENTIFIER "(" [ argList ] ")" ";" ;
 
 printStmt
     = ( "print" | "println" ) "(" printArg { "," printArg } ")" ";" ;
@@ -99,9 +100,9 @@ primary
     = INT_LIT
     | "true"
     | "false"
-    | IDENTIFIER
-    | callExpr
-    | "(" expr ")" ;
+    | "(" expr ")"
+    | IDENTIFIER [ primaryTail ] ;
 
-callExpr
-    = IDENTIFIER "(" [ argList ] ")" ;
+primaryTail
+    = "(" [ argList ] ")"
+    
