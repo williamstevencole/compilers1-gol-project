@@ -16,8 +16,8 @@ Token Lexer::nextToken(){
                     (ch == '\'' || ch == '.') ||
                     (ch >= '?' && ch <= '@') ||
                     (ch >= '[' && ch <= '^') ||
-                    (ch >= '`') ||
-                    (ch >= '~' && ch <= '\xff')
+                    (ch == '`') ||
+                    (ch >= '~' && ch <= '\x7f')
                 ){
                     state = State::UNK;
                     ss << ch;

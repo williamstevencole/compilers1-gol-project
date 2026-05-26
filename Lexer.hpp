@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <stdexcept>
+#include <iostream>
 #include <unordered_map>
 
 enum class State {
