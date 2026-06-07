@@ -1,0 +1,154 @@
+digraph INITIAL {
+		rankdir=LR;
+		concentrate=true;
+		node [fontname="ArialNarrow"];
+		edge [fontname="Courier"];
+
+		init [root=true,peripheries=0,label="INITIAL",fontname="Courier"];
+		init -> N0x9f1400010;
+
+/*START*/	N0x9f1400010 [label=""];
+		N0x9f1400010 -> N0x9f1400880 [label="\\0-\\b"];
+		N0x9f1400010 -> N0x9f14007f0 [label="\\t"];
+		N0x9f1400010 -> N0x9f14000a0 [label="\\n"];
+		N0x9f1400010 -> N0x9f1400880 [label="\\v-\\x1f"];
+		N0x9f1400010 -> N0x9f14007f0 [label="\\x20"];
+		N0x9f1400010 -> N0x9f1400520 [label="!"];
+		N0x9f1400010 -> N0x9f14002e0 [label="\""];
+		N0x9f1400010 -> N0x9f1400880 [label="#-$"];
+		N0x9f1400010 -> N0x9f1400370 [label="%"];
+		N0x9f1400010 -> N0x9f1400760 [label="&"];
+		N0x9f1400010 -> N0x9f1400880 [label="'"];
+		N0x9f1400010 -> N0x9f1400370 [label="(--"];
+		N0x9f1400010 -> N0x9f1400880 [label="."];
+		N0x9f1400010 -> N0x9f1400130 [label="/"];
+		N0x9f1400010 -> N0x9f1400250 [label="0-9"];
+		N0x9f1400010 -> N0x9f1400400 [label=":"];
+		N0x9f1400010 -> N0x9f1400370 [label=";"];
+		N0x9f1400010 -> N0x9f14005b0 [label="<"];
+		N0x9f1400010 -> N0x9f1400490 [label="="];
+		N0x9f1400010 -> N0x9f1400640 [label=">"];
+		N0x9f1400010 -> N0x9f1400880 [label="?-@"];
+		N0x9f1400010 -> N0x9f14001c0 [label="A-Z"];
+		N0x9f1400010 -> N0x9f1400880 [label="[-^"];
+		N0x9f1400010 -> N0x9f14001c0 [label="_"];
+		N0x9f1400010 -> N0x9f1400880 [label="`"];
+		N0x9f1400010 -> N0x9f14001c0 [label="a-z"];
+		N0x9f1400010 -> N0x9f1400370 [label="{"];
+		N0x9f1400010 -> N0x9f14006d0 [label="|"];
+		N0x9f1400010 -> N0x9f1400370 [label="}"];
+		N0x9f1400010 -> N0x9f1400880 [label="~-\\xff"];
+
+/*ACCEPT 1*/	N0x9f14000a0 [label="[1]",peripheries=2];
+		N0x9f14000a0 -> N0x9f14000a0 [label="\\t-\\n"];
+		N0x9f14000a0 -> N0x9f14000a0 [label="\\x20"];
+
+/*ACCEPT 7*/	N0x9f1400130 [label="[7]",peripheries=2];
+		N0x9f1400130 -> N0x9f14009a0 [label="*"];
+		N0x9f1400130 -> N0x9f1400910 [label="/"];
+
+/*ACCEPT 4*/	N0x9f14001c0 [label="[4]",peripheries=2];
+		N0x9f14001c0 -> N0x9f1400a30 [label="0-9"];
+		N0x9f14001c0 -> N0x9f1400a30 [label="A-Z"];
+		N0x9f14001c0 -> N0x9f1400a30 [label="_"];
+		N0x9f14001c0 -> N0x9f1400a30 [label="a-z"];
+
+/*ACCEPT 5*/	N0x9f1400250 [label="[5]",peripheries=2];
+		N0x9f1400250 -> N0x9f1400ac0 [label="0-9"];
+
+/*ACCEPT 15*/	N0x9f14002e0 [label="[15]",peripheries=2];
+		N0x9f14002e0 -> N0x9f1400b50 [label="\\0-!"];
+		N0x9f14002e0 -> N0x9f1400c70 [label="\""];
+		N0x9f14002e0 -> N0x9f1400b50 [label="#-["];
+		N0x9f14002e0 -> N0x9f1400be0 [label="\\"];
+		N0x9f14002e0 -> N0x9f1400b50 [label="]-\\xff"];
+
+/*ACCEPT 7*/	N0x9f1400370 [label="[7]",peripheries=2];
+
+/*ACCEPT 15*/	N0x9f1400400 [label="[15]",peripheries=2];
+		N0x9f1400400 -> N0x9f1400d00 [label="="];
+
+/*ACCEPT 7*/	N0x9f1400490 [label="[7]",peripheries=2];
+		N0x9f1400490 -> N0x9f1400d90 [label="="];
+
+/*ACCEPT 7*/	N0x9f1400520 [label="[7]",peripheries=2];
+		N0x9f1400520 -> N0x9f1400e20 [label="="];
+
+/*ACCEPT 7*/	N0x9f14005b0 [label="[7]",peripheries=2];
+		N0x9f14005b0 -> N0x9f1400eb0 [label="="];
+
+/*ACCEPT 7*/	N0x9f1400640 [label="[7]",peripheries=2];
+		N0x9f1400640 -> N0x9f1400f40 [label="="];
+
+/*ACCEPT 15*/	N0x9f14006d0 [label="[15]",peripheries=2];
+		N0x9f14006d0 -> N0x9f1400fd0 [label="|"];
+
+/*ACCEPT 7*/	N0x9f1400760 [label="[7]",peripheries=2];
+		N0x9f1400760 -> N0x9f1401060 [label="&"];
+
+/*ACCEPT 1*/	N0x9f14007f0 [label="[1]",peripheries=2];
+		N0x9f14007f0 -> N0x9f14000a0 [label="\\t-\\n"];
+		N0x9f14007f0 -> N0x9f14000a0 [label="\\x20"];
+
+/*ACCEPT 15*/	N0x9f1400880 [label="[15]",peripheries=2];
+
+/*ACCEPT 2*/	N0x9f1400910 [label="[2]",peripheries=2];
+		N0x9f1400910 -> N0x9f1400910 [label="\\0-\\t"];
+		N0x9f1400910 -> N0x9f1400910 [label="\\v-\\xff"];
+
+/*STATE*/	N0x9f14009a0 [label=""];
+		N0x9f14009a0 -> N0x9f14009a0 [label="\\0-)"];
+		N0x9f14009a0 -> N0x9f14010f0 [label="*"];
+		N0x9f14009a0 -> N0x9f14009a0 [label="+-\\xff"];
+
+/*ACCEPT 4*/	N0x9f1400a30 [label="[4]",peripheries=2];
+		N0x9f1400a30 -> N0x9f1400a30 [label="0-9"];
+		N0x9f1400a30 -> N0x9f1400a30 [label="A-Z"];
+		N0x9f1400a30 -> N0x9f1400a30 [label="_"];
+		N0x9f1400a30 -> N0x9f1400a30 [label="a-z"];
+
+/*ACCEPT 5*/	N0x9f1400ac0 [label="[5]",peripheries=2];
+		N0x9f1400ac0 -> N0x9f1400ac0 [label="0-9"];
+
+/*STATE*/	N0x9f1400b50 [label=""];
+		N0x9f1400b50 -> N0x9f1400b50 [label="\\0-!"];
+		N0x9f1400b50 -> N0x9f1400c70 [label="\""];
+		N0x9f1400b50 -> N0x9f1400b50 [label="#-["];
+		N0x9f1400b50 -> N0x9f1400be0 [label="\\"];
+		N0x9f1400b50 -> N0x9f1400b50 [label="]-\\xff"];
+
+/*STATE*/	N0x9f1400be0 [label=""];
+		N0x9f1400be0 -> N0x9f1400b50 [label="\\0-\\t"];
+		N0x9f1400be0 -> N0x9f1400b50 [label="\\v-\\xff"];
+
+/*ACCEPT 6*/	N0x9f1400c70 [label="[6]",peripheries=2];
+
+/*ACCEPT 8*/	N0x9f1400d00 [label="[8]",peripheries=2];
+
+/*ACCEPT 9*/	N0x9f1400d90 [label="[9]",peripheries=2];
+
+/*ACCEPT 10*/	N0x9f1400e20 [label="[10]",peripheries=2];
+
+/*ACCEPT 11*/	N0x9f1400eb0 [label="[11]",peripheries=2];
+
+/*ACCEPT 12*/	N0x9f1400f40 [label="[12]",peripheries=2];
+
+/*ACCEPT 13*/	N0x9f1400fd0 [label="[13]",peripheries=2];
+
+/*ACCEPT 14*/	N0x9f1401060 [label="[14]",peripheries=2];
+
+/*STATE*/	N0x9f14010f0 [label=""];
+		N0x9f14010f0 -> N0x9f14009a0 [label="\\0-)"];
+		N0x9f14010f0 -> N0x9f1401180 [label="*"];
+		N0x9f14010f0 -> N0x9f14009a0 [label="+-."];
+		N0x9f14010f0 -> N0x9f1401210 [label="/"];
+		N0x9f14010f0 -> N0x9f14009a0 [label="0-\\xff"];
+
+/*STATE*/	N0x9f1401180 [label=""];
+		N0x9f1401180 -> N0x9f14009a0 [label="\\0-)"];
+		N0x9f1401180 -> N0x9f1401180 [label="*"];
+		N0x9f1401180 -> N0x9f14009a0 [label="+-."];
+		N0x9f1401180 -> N0x9f14009a0 [label="0-\\xff"];
+
+/*ACCEPT 3*/	N0x9f1401210 [label="[3]",peripheries=2];
+}
