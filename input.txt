@@ -5,6 +5,11 @@ func add(a int, b int) int {
     return a + b;
 }
 
+func addRef(ref a int, ref b int) { 
+    a = a + b + 10 - (a - b)*5;
+}
+
+
 func main() {
     var result int;
     result := add(x, y);
