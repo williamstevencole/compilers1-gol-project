@@ -1,0 +1,20 @@
+// maximo entre dos valores
+func max(a int, b int) int {
+    if a >= b {
+        return a;
+    }
+    return b;
+}
+
+// maximo de tres por composicion
+func maxOfThree(a int, b int, c int) int {
+    return max(max(a, b), c);
+}
+
+func main() {
+    var m1 int = maxOfThree(5, 12, 9);
+    var m2 int = maxOfThree(-3, -1, -7);
+
+    println("max(5,12,9)    = ", m1);
+    println("max(-3,-1,-7) = ", m2);
+}

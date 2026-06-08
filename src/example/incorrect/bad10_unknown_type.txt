@@ -1,0 +1,2 @@
+// los unicos tipos validos son int y bool
+var pi float = 3;

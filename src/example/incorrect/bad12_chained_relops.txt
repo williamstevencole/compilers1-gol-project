@@ -1,0 +1,6 @@
+// relExpr = addExpr [ relOp addExpr ] -> solo UN relOp
+func main() {
+    if 1 < 2 < 3 {
+        print(1);
+    }
+}

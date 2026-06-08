@@ -1,0 +1,2 @@
+// funcDecl exige un block; un ';' no sirve
+func main();

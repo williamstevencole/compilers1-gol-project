@@ -1,0 +1,15 @@
+// numero de pasos hasta llegar a 1 en la conjetura de Collatz
+func collatzSteps(n int, steps int) int {
+    if n == 1 {
+        return steps;
+    }
+    if n % 2 == 0 {
+        return collatzSteps(n / 2, steps + 1);
+    }
+    return collatzSteps(3 * n + 1, steps + 1);
+}
+
+func main() {
+    println("collatz(6)  = ", collatzSteps(6, 0));
+    println("collatz(27) = ", collatzSteps(27, 0));
+}

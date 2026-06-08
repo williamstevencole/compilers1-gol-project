@@ -1,0 +1,2 @@
+// 'int' es palabra reservada, no se puede usar como IDENTIFIER
+var int int = 5;

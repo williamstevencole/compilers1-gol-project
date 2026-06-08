@@ -1,0 +1,26 @@
+// predicados booleanos combinados con && y ||
+
+func inRange(n int, lo int, hi int) bool {
+    return n >= lo && n <= hi;
+}
+
+func isPositive(n int) bool {
+    return n > 0;
+}
+
+func divisibleBy(n int, d int) bool {
+    return n % d == 0;
+}
+
+func main() {
+    var x int = 24;
+    var ok bool = isPositive(x) && inRange(x, 0, 100) && divisibleBy(x, 6);
+
+    if ok {
+        println("cumple todas");
+    } else if !isPositive(x) {
+        println("no es positivo");
+    } else {
+        println("no cumple alguna");
+    }
+}

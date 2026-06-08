@@ -1,0 +1,33 @@
+// varias operaciones por referencia sobre un mismo acumulador
+
+func addTo(ref total int, x int) {
+    total = total + x;
+}
+
+func multiplyInto(ref total int, x int) {
+    total = total * x;
+}
+
+func resetTo(ref n int, value int) {
+    n = value;
+}
+
+func negate(ref n int) {
+    n = -n;
+}
+
+func main() {
+    var s int = 0;
+    addTo(&s, 5);
+    addTo(&s, 10);
+    addTo(&s, 15);
+    println("suma   = ", s);
+
+    resetTo(&s, 2);
+    multiplyInto(&s, 3);
+    multiplyInto(&s, 4);
+    println("producto = ", s);
+
+    negate(&s);
+    println("negado = ", s);
+}

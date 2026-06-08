@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
     
     try{
         p.parse();
-        std::cout << "code is valid :D";
+        std::cout << "File: " << argv[1] << " was parsed correctly";
     }catch(const std::runtime_error& error){
         std::cerr << error.what() << "\n";
     }

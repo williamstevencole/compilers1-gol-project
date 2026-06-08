@@ -26,6 +26,10 @@ stmt = IDENTIFIER stmtTail
     | forStmt
     | returnStmt
     | printStmt
+
+forStmt = "for" expr block 
+
+returnStmt = "return" [ expr ] ";" 
     
 ifStmt = "if" expr block [ "else" ifTail ]
 ifTail = "if" expr block [ "else" ifTail ]
@@ -41,7 +45,6 @@ printArg = expr | STRING_LIT
 
 argList = arg { "," arg }
 arg = [ "&" ] expr 
-
 
 expr        = orExpr
 

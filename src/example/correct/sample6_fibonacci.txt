@@ -1,0 +1,25 @@
+// fibonacci en dos variantes:
+//  1) recursion clasica (exponencial)
+//  2) recursion con acumuladores (lineal, estilo tail-recursive)
+
+func fib(n int) int {
+    if n < 2 {
+        return n;
+    }
+    return fib(n - 1) + fib(n - 2);
+}
+
+func fibAcc(n int, a int, b int) int {
+    if n == 0 {
+        return a;
+    }
+    return fibAcc(n - 1, b, a + b);
+}
+
+func main() {
+    var slow int = fib(7);
+    var fast int = fibAcc(10, 0, 1);
+
+    println("fib(7) = ", slow);
+    println("fibAcc(10) = ", fast);
+}

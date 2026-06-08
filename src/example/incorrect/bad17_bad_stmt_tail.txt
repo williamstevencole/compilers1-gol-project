@@ -1,0 +1,4 @@
+// stmtTail solo acepta ':=', '=' o '(' tras un IDENTIFIER
+func main() {
+    foo bar;
+}

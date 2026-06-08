@@ -1,0 +1,20 @@
+// suma de 1..n por recursion
+func sumUpTo(n int) int {
+    if n <= 0 {
+        return 0;
+    }
+    return n + sumUpTo(n - 1);
+}
+
+// suma de un rango [lo, hi] por recursion
+func sumRange(lo int, hi int) int {
+    if lo > hi {
+        return 0;
+    }
+    return lo + sumRange(lo + 1, hi);
+}
+
+func main() {
+    println("sum 1..100   = ", sumUpTo(100));
+    println("sum 10..20  = ", sumRange(10, 20));
+}

@@ -1,0 +1,17 @@
+// potencia entera por cuadrado rapido (exponentiation by squaring)
+func power(b int, e int) int {
+    if e == 0 {
+        return 1;
+    }
+    if e % 2 == 0 {
+        var half int = power(b, e / 2);
+        return half * half;
+    }
+    return b * power(b, e - 1);
+}
+
+func main() {
+    println("2^10 = ", power(2, 10));
+    println("3^5  = ", power(3, 5));
+    println("7^0  = ", power(7, 0));
+}

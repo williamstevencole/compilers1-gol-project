@@ -1,0 +1,7 @@
+// despues de 'else' la gramatica exige 'if expr block' o un block,
+// nunca un stmt suelto
+func main() {
+    if true {
+        print(1);
+    } else print(2);
+}

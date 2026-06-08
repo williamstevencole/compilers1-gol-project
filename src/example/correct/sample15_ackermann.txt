@@ -1,0 +1,17 @@
+// funcion de Ackermann (cuidado con valores grandes de m)
+func ack(m int, n int) int {
+    if m == 0 {
+        return n + 1;
+    }
+    if n == 0 {
+        return ack(m - 1, 1);
+    }
+    return ack(m - 1, ack(m, n - 1));
+}
+
+func main() {
+    println("ack(0,0) = ", ack(0, 0));
+    println("ack(1,2) = ", ack(1, 2));
+    println("ack(2,3) = ", ack(2, 3));
+    println("ack(3,3) = ", ack(3, 3));
+}

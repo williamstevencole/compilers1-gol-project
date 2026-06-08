@@ -1,0 +1,28 @@
+// recursion mutua: cada una llama a la otra hasta llegar a 0
+func isEven(n int) bool {
+    if n == 0 {
+        return true;
+    }
+    return isOdd(n - 1);
+}
+
+func isOdd(n int) bool {
+    if n == 0 {
+        return false;
+    }
+    return isEven(n - 1);
+}
+
+func main() {
+    if isEven(8) {
+        println("8 es par");
+    } else {
+        println("8 es impar");
+    }
+
+    if isOdd(13) {
+        println("13 es impar");
+    } else {
+        println("13 es par");
+    }
+}

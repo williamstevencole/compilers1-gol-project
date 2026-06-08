@@ -5,7 +5,7 @@
 void Parser::parse() {
     parseProgram();
     if (currToken.id != TokenID::ENDOFFILE) {
-        throw std::runtime_error("Unexpected token after end of program: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Exp: " + currToken.lexeme);
     }
 }
 
@@ -47,7 +47,7 @@ void Parser::parseVarDecl() {
     }
 
     if (currToken.id != TokenID::SEMICOLON) {
-        throw std::runtime_error("Syntax error: Expected {;} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
     }
     consume();
 }
@@ -57,31 +57,31 @@ void Parser::parseType() {
     if (currToken.id == TokenID::KW_INT || currToken.id == TokenID::KW_BOOL) {
         consume();
     } else {
-        throw std::runtime_error("Syntax error: Expected {int , bool} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { int, bool} but got: " + currToken.lexeme);
     }
 }
 
 // funcDecl = "func" IDENTIFIER "(" [ paramList ] ")" [ type ] block
 void Parser::parseFuncDecl() {
     if (currToken.id != TokenID::KW_FUNC) {
-        throw std::runtime_error("Syntax error: Expected {func} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { func } but got: " + currToken.lexeme);
     }
     consume();
 
     if (currToken.id != TokenID::IDENTIFIER) {
-        throw std::runtime_error("Syntax error: Expected {IDENTIFIER} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { IDENTIFIER } but got: " + currToken.lexeme);
     }
     consume();
 
     if (currToken.id != TokenID::OPEN_PAR) {
-        throw std::runtime_error("Syntax error: Expected {(} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { ( } but got: " + currToken.lexeme);
     }
     consume();
 
     if (currToken.id != TokenID::CLOSE_PAR) {
         parseParamList();
         if (currToken.id != TokenID::CLOSE_PAR) {
-            throw std::runtime_error("Syntax error: Expected {)} but got: " + currToken.lexeme);
+            throw std::runtime_error("Syntax error: Expected { ) } but got: " + currToken.lexeme);
         }
     }
     consume();
@@ -109,7 +109,7 @@ void Parser::parseParam() {
     }
 
     if (currToken.id != TokenID::IDENTIFIER) {
-        throw std::runtime_error("Syntax error: Expected {IDENTIFIER} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { IDENTIFIER } but got: " + currToken.lexeme);
     }
     consume();
 
@@ -119,7 +119,7 @@ void Parser::parseParam() {
 // block = "{" { stmt } "}"
 void Parser::parseBlock() {
     if (currToken.id != TokenID::OPEN_BRACE) {
-        throw std::runtime_error("Syntax error: Expected {{} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { { } but got: " + currToken.lexeme);
     }
     consume();
 
@@ -128,7 +128,7 @@ void Parser::parseBlock() {
     }
 
     if (currToken.id != TokenID::CLOSE_BRACE) {
-        throw std::runtime_error("Syntax error: Expected {}} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { } } but got: " + currToken.lexeme);
     }
     consume();
 }
@@ -149,14 +149,14 @@ void Parser::parseStmt() {
     } else if (currToken.id == TokenID::KW_PRINT || currToken.id == TokenID::KW_PRINTLN) {
         parsePrintStmt();
     } else {
-        throw std::runtime_error("Syntax error: Unexpected token in statement, got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { Identifier, var, if, for, return, print, println } but got: " + currToken.lexeme);
     }
 }
 
 // ifStmt = "if" expr block [ "else" ifTail ]
 void Parser::parseIfStmt() {
     if (currToken.id != TokenID::KW_IF) {
-        throw std::runtime_error("Syntax error: Expected {if} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { if } but got: " + currToken.lexeme);
     }
     consume();
 
@@ -182,7 +182,7 @@ void Parser::parseIfTail() {
     } else if (currToken.id == TokenID::OPEN_BRACE) {
         parseBlock();
     } else {
-        throw std::runtime_error("Syntax error: Expected {if , {} after 'else' but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { if, { } after 'else' but got: " + currToken.lexeme);
     }
 }
 
@@ -192,7 +192,7 @@ void Parser::parseStmtTail() {
         consume();
         parseExpr();
         if (currToken.id != TokenID::SEMICOLON) {
-            throw std::runtime_error("Syntax error: Expected {;} but got: " + currToken.lexeme);
+            throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
         }
         consume();
     } else if (currToken.id == TokenID::OPEN_PAR) {
@@ -200,23 +200,23 @@ void Parser::parseStmtTail() {
         if (currToken.id != TokenID::CLOSE_PAR) {
             parseArgList();
             if (currToken.id != TokenID::CLOSE_PAR) {
-                throw std::runtime_error("Syntax error: Expected {)} but got: " + currToken.lexeme);
+                throw std::runtime_error("Syntax error: Expected { ) } but got: " + currToken.lexeme);
             }
         }
         consume();
         if (currToken.id != TokenID::SEMICOLON) {
-            throw std::runtime_error("Syntax error: Expected {;} but got: " + currToken.lexeme);
+            throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
         }
         consume();
     } else {
-        throw std::runtime_error("Syntax error: Expected {:= , = , (} after identifier but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { := , = , ( } after identifier but got: " + currToken.lexeme);
     }
 }
 
 // forStmt = "for" expr block
 void Parser::parseForStmt() {
     if (currToken.id != TokenID::KW_FOR) {
-        throw std::runtime_error("Syntax error: Expected {for} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { for } but got: " + currToken.lexeme);
     }
     consume();
 
@@ -227,7 +227,7 @@ void Parser::parseForStmt() {
 // returnStmt = "return" [ expr ] ";"
 void Parser::parseReturnStmt() {
     if (currToken.id != TokenID::KW_RETURN) {
-        throw std::runtime_error("Syntax error: Expected {return} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { return } but got: " + currToken.lexeme);
     }
     consume();
 
@@ -236,7 +236,7 @@ void Parser::parseReturnStmt() {
     }
 
     if (currToken.id != TokenID::SEMICOLON) {
-        throw std::runtime_error("Syntax error: Expected {;} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
     }
     consume();
 }
@@ -244,12 +244,12 @@ void Parser::parseReturnStmt() {
 // printStmt = ( "print" | "println" ) "(" printArg { "," printArg } ")" ";"
 void Parser::parsePrintStmt() {
     if (currToken.id != TokenID::KW_PRINT && currToken.id != TokenID::KW_PRINTLN) {
-        throw std::runtime_error("Syntax error: Expected {print , println} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { print, println } but got: " + currToken.lexeme);
     }
     consume();
 
     if (currToken.id != TokenID::OPEN_PAR) {
-        throw std::runtime_error("Syntax error: Expected {(} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { ( } but got: " + currToken.lexeme);
     }
     consume();
 
@@ -260,12 +260,12 @@ void Parser::parsePrintStmt() {
     }
 
     if (currToken.id != TokenID::CLOSE_PAR) {
-        throw std::runtime_error("Syntax error: Expected {)} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { ) } but got: " + currToken.lexeme);
     }
     consume();
 
     if (currToken.id != TokenID::SEMICOLON) {
-        throw std::runtime_error("Syntax error: Expected {;} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
     }
     consume();
 }
@@ -351,7 +351,7 @@ void Parser::parseRelOp() {
     ) {
         consume();
     } else {
-        throw std::runtime_error("Syntax error: Expected {== , != , < , > , <= , >=} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { ==, !=, <, >, <=, >= } but got: " + currToken.lexeme);
     }
 }
 
@@ -400,11 +400,11 @@ void Parser::parsePrimary() {
         consume();
         parseExpr();
         if (currToken.id != TokenID::CLOSE_PAR) {
-            throw std::runtime_error("Syntax error: Expected {)} but got: " + currToken.lexeme);
+            throw std::runtime_error("Syntax error: Expected { ) } but got: " + currToken.lexeme);
         }
         consume();
     } else {
-        throw std::runtime_error("Syntax error: Expected literal, identifier or {(} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected literal, identifier or { ( } but got: " + currToken.lexeme);
     }
 }
 
@@ -415,7 +415,7 @@ void Parser::parsePrimaryTail() {
         if (currToken.id != TokenID::CLOSE_PAR) {
             parseArgList();
             if (currToken.id != TokenID::CLOSE_PAR) {
-                throw std::runtime_error("Syntax error: Expected {)} but got: " + currToken.lexeme);
+                throw std::runtime_error("Syntax error: Expected { ) } but got: " + currToken.lexeme);
             }
         }
         consume();

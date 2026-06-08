@@ -1,0 +1,5 @@
+// a nivel de programa solo se permite varDecl o funcDecl,
+// no un bloque suelto
+{
+    var x int = 1;
+}

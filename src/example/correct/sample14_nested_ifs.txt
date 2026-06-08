@@ -1,0 +1,26 @@
+// estructura if anidada profundamente
+
+func grade(score int) int {
+    if score >= 90 {
+        if score >= 95 {
+            return 4;
+        } else {
+            return 3;
+        }
+    } else if score >= 70 {
+        if score >= 80 {
+            return 2;
+        } else {
+            return 1;
+        }
+    } else {
+        return 0;
+    }
+}
+
+func main() {
+    println("grade(98) = ", grade(98));
+    println("grade(83) = ", grade(83));
+    println("grade(72) = ", grade(72));
+    println("grade(55) = ", grade(55));
+}

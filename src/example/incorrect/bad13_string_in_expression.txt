@@ -1,0 +1,4 @@
+// STRING_LIT solo es valido como printArg, no como expr
+func main() {
+    var s int = "hola";
+}

@@ -1,0 +1,4 @@
+// unaryExpr = "-" unaryExpr | primary -> '+' NO es operador unario
+func main() {
+    var n int = +5;
+}
