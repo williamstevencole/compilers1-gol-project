@@ -1,6 +1,6 @@
 # Gol
 
-A hand-written front end (lexer + recursive-descent parser) for **Gol**, a small
+A front end (lexer + recursive-descent parser) for **Gol**, a small
 statically-typed teaching language with `int` / `bool` values, first-class
 functions, pass-by-reference, and `print` / `println` statements. Built in
 modern C++ (C++20) as a compilers course project.
