@@ -53,7 +53,9 @@ enum class TokenID{
     KW_BOOL,
     KW_REF,
     KW_PRINT,
-    KW_PRINTLN
+    KW_PRINTLN,
+    KW_BREAK,
+    KW_CONTINUE
 };
 
 struct Token {

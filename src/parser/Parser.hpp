@@ -22,6 +22,8 @@ class Parser{
         void parseStmt();
         void parseForStmt();
         void parseReturnStmt();
+        void parseBreakStmt();
+        void parseContinueStmt();
         void parsePrintStmt();
         void parseIfStmt();
         void parseIfTail();

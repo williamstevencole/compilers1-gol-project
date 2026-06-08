@@ -1,0 +1,22 @@
+// busca el divisor mas pequeño de n (> 1) usando un for + break.
+// si no encuentra, n es primo y devuelve n.
+func smallestDivisor(n int) int {
+    var d int = 2;
+    var result int = n;
+
+    for d * d <= n {
+        if n % d == 0 {
+            result = d;
+            break; // ya lo encontre, no sigo iterando
+        }
+        d = d + 1;
+    }
+
+    return result;
+}
+
+func main() {
+    println("smallestDivisor(91) = ", smallestDivisor(91));
+    println("smallestDivisor(97) = ", smallestDivisor(97));
+    println("smallestDivisor(100) = ", smallestDivisor(100));
+}

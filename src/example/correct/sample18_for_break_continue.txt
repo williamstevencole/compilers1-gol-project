@@ -1,0 +1,57 @@
+// combina break y continue en el mismo loop
+// busca el primer entero >= start que sea multiplo de 3 y NO de 5,
+// dentro del rango [start, limit]. devuelve -1 si no encuentra.
+func findSpecial(start int, limit int) int {
+    var i int = start;
+    var found int = -1;
+
+    for i <= limit {
+        if i % 5 == 0 {
+            i = i + 1;
+            continue; // descarto multiplos de 5 sin chequear nada mas
+        }
+
+        if i % 3 == 0 {
+            found = i;
+            break;    // encontre el primero, salgo del loop
+        }
+
+        i = i + 1;
+    }
+
+    return found;
+}
+
+// loops anidados: break solo sale del loop mas interno
+func firstPairSum(target int, limit int) int {
+    var a int = 1;
+    var result int = -1;
+
+    for a <= limit {
+        var b int = a;
+
+        for b <= limit {
+            if a + b > target {
+                break; // sale solo del loop de b
+            }
+            if a + b == target {
+                result = a;
+                b = limit + 1; // hack para forzar salida
+            }
+            b = b + 1;
+        }
+
+        if result != -1 {
+            break;
+        }
+        a = a + 1;
+    }
+
+    return result;
+}
+
+func main() {
+    println("findSpecial(5,100)  = ", findSpecial(5, 100));
+    println("findSpecial(20,100) = ", findSpecial(20, 100));
+    println("firstPairSum(15,10) = ", firstPairSum(15, 10));
+}

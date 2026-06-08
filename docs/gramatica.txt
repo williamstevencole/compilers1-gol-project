@@ -26,6 +26,12 @@ stmt = IDENTIFIER stmtTail
     | forStmt
     | returnStmt
     | printStmt
+    | breakStmt
+    | continueStmt
+
+breakStmt = "break" ";"
+
+continueStmt = "continue" ";"
 
 forStmt = "for" expr block 
 

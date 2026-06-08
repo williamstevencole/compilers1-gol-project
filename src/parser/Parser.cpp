@@ -133,7 +133,7 @@ void Parser::parseBlock() {
     consume();
 }
 
-// stmt = IDENTIFIER stmtTail | varDecl | ifStmt | forStmt | returnStmt | printStmt
+// stmt = IDENTIFIER stmtTail | varDecl | ifStmt | forStmt | returnStmt | printStmt | breakStmt | continueStmt
 void Parser::parseStmt() {
     if (currToken.id == TokenID::IDENTIFIER) {
         consume();
@@ -148,9 +148,29 @@ void Parser::parseStmt() {
         parseReturnStmt();
     } else if (currToken.id == TokenID::KW_PRINT || currToken.id == TokenID::KW_PRINTLN) {
         parsePrintStmt();
+    } else if(currToken.id == TokenID::KW_BREAK){
+        parseBreakStmt();
+    } else if(currToken.id == TokenID::KW_CONTINUE){
+        parseContinueStmt();
     } else {
-        throw std::runtime_error("Syntax error: Expected { Identifier, var, if, for, return, print, println } but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { Identifier, var, if, for, return, print, println, break, continue } but got: " + currToken.lexeme);
     }
+}
+
+void Parser::parseBreakStmt(){
+    consume();
+    if(currToken.id != TokenID::SEMICOLON){
+        throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
+    }
+    consume();
+}
+
+void Parser::parseContinueStmt(){
+    consume();
+    if(currToken.id != TokenID::SEMICOLON){
+        throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
+    }
+    consume();
 }
 
 // ifStmt = "if" expr block [ "else" ifTail ]

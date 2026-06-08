@@ -249,7 +249,7 @@ Token Lexer::nextToken(){
                 state = States::INITIAL;
                 break;
             case States::OP_NEQ:
-                return {TokenID::OP_NOT, ss.str()};
+                return {TokenID::OP_NEQ, ss.str()};
             case States::STR_REST:
                 while(
                     (ch >= ']' && ch <= 0xff) ||

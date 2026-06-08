@@ -1,0 +1,40 @@
+// suma de los numeros pares entre 1 y n usando for + continue
+// (saltando los impares con 'continue' en vez de un if/else)
+func sumEvensUpTo(n int) int {
+    var i int = 0;
+    var total int = 0;
+
+    for i < n {
+        i = i + 1;
+        if i % 2 != 0 {
+            continue; // impar -> salto a la siguiente iteracion
+        }
+        total = total + i;
+    }
+
+    return total;
+}
+
+// cuenta los multiplos de 3 entre 1 y n, ignorando los multiplos de 9
+func countMultiples(n int) int {
+    var i int = 0;
+    var count int = 0;
+
+    for i < n {
+        i = i + 1;
+        if i % 9 == 0 {
+            continue; // multiplos de 9 los descarto
+        }
+        if i % 3 == 0 {
+            count = count + 1;
+        }
+    }
+
+    return count;
+}
+
+func main() {
+    println("sum even 1..10 = ", sumEvensUpTo(10));
+    println("sum even 1..20 = ", sumEvensUpTo(20));
+    println("count mult3 (sin mult9) 1..30 = ", countMultiples(30));
+}

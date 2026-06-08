@@ -31,7 +31,9 @@ class Lexer{
             {"bool",    TokenID::KW_BOOL},
             {"ref",     TokenID::KW_REF},
             {"print",   TokenID::KW_PRINT},
-            {"println", TokenID::KW_PRINTLN}
+            {"println", TokenID::KW_PRINTLN},
+            {"break", TokenID::KW_BREAK},
+            {"continue", TokenID::KW_CONTINUE}
         };
 
         std::unordered_map<std::string, TokenID> single_ops = {
