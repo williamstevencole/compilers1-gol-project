@@ -3,9 +3,7 @@
 X | Y = X or Y
 Terminal are in "quotes" or ALL_CAPS
 
-
 ---
-
 
 program = { topDecl } EOF
 
