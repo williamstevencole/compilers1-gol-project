@@ -35,7 +35,7 @@ void Parser::parseVarDecl() {
     consume();
 
     if (currToken.id != TokenID::IDENTIFIER) {
-        throw std::runtime_error("Syntax error: Expected {IDENTIFIER} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { IDENTIFIER } but got: " + currToken.lexeme);
     }
     consume();
 
@@ -57,7 +57,7 @@ void Parser::parseType() {
     if (currToken.id == TokenID::KW_INT || currToken.id == TokenID::KW_BOOL) {
         consume();
     } else {
-        throw std::runtime_error("Syntax error: Expected { int, bool} but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { int, bool } but got: " + currToken.lexeme);
     }
 }
 
@@ -153,7 +153,7 @@ void Parser::parseStmt() {
     } else if(currToken.id == TokenID::KW_CONTINUE){
         parseContinueStmt();
     } else {
-        throw std::runtime_error("Syntax error: Expected { Identifier, var, if, for, return, print, println, break, continue } but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected { IDENTIFIER, var, if, for, return, print, println, break, continue } but got: " + currToken.lexeme);
     }
 }
 
@@ -424,7 +424,7 @@ void Parser::parsePrimary() {
         }
         consume();
     } else {
-        throw std::runtime_error("Syntax error: Expected literal, identifier or { ( } but got: " + currToken.lexeme);
+        throw std::runtime_error("Syntax error: Expected literal, IDENTIFIER or { ( } but got: " + currToken.lexeme);
     }
 }
 
