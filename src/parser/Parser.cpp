@@ -52,8 +52,22 @@ void Parser::parseVarDecl() {
     consume();
 }
 
-// type = "int" | "bool"
+// type = [ "[" INT_LIT "]" ] ( "int" | "bool" )
 void Parser::parseType() {
+    if (currToken.id == TokenID::OPEN_BRACK) {
+        consume();
+
+        if (currToken.id != TokenID::INT_LIT) {
+            throw std::runtime_error("Syntax error: Expected { INT_LIT } inside array size but got: " + currToken.lexeme);
+        }
+        consume();
+
+        if (currToken.id != TokenID::CLOSE_BRACK) {
+            throw std::runtime_error("Syntax error: Expected { ] } but got: " + currToken.lexeme);
+        }
+        consume();
+    }
+
     if (currToken.id == TokenID::KW_INT || currToken.id == TokenID::KW_BOOL) {
         consume();
     } else {
@@ -86,7 +100,7 @@ void Parser::parseFuncDecl() {
     }
     consume();
 
-    if (currToken.id == TokenID::KW_INT || currToken.id == TokenID::KW_BOOL) {
+    if (currToken.id == TokenID::KW_INT || currToken.id == TokenID::KW_BOOL || currToken.id == TokenID::OPEN_BRACK) {
         parseType();
     }
 
@@ -225,6 +239,26 @@ void Parser::parseStmtTail() {
         }
         consume();
         if (currToken.id != TokenID::SEMICOLON) {
+            throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
+        }
+        consume();
+    } else if (currToken.id == TokenID::OPEN_BRACK) {
+        consume();
+        parseExpr();
+
+        if(currToken.id != TokenID::CLOSE_BRACK){
+            throw std::runtime_error("Syntax error: Expected { ] } but got: " + currToken.lexeme);
+        }
+        consume();
+
+        if(currToken.id != TokenID::OP_ASSIGN){
+            throw std::runtime_error("Syntax error: Expected { = } but got: " + currToken.lexeme);
+        }
+        consume();
+
+        parseExpr();
+
+        if(currToken.id != TokenID::SEMICOLON){
             throw std::runtime_error("Syntax error: Expected { ; } but got: " + currToken.lexeme);
         }
         consume();
@@ -437,6 +471,15 @@ void Parser::parsePrimaryTail() {
             if (currToken.id != TokenID::CLOSE_PAR) {
                 throw std::runtime_error("Syntax error: Expected { ) } but got: " + currToken.lexeme);
             }
+        }
+        consume();
+    } else if(currToken.id == TokenID::OPEN_BRACK){
+        consume();
+
+        parseExpr();
+
+        if(currToken.id != TokenID::CLOSE_BRACK){
+            throw std::runtime_error("Syntax error: Expected { ] } but got: " + currToken.lexeme);
         }
         consume();
     }

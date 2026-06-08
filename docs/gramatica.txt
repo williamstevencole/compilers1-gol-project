@@ -11,7 +11,7 @@ topDecl = varDecl | funcDecl
 
 varDecl = "var" IDENTIFIER type [ "=" expr ] ";"
 
-type = "int" | "bool"
+type = [ "[" INT_LIT "]" ] ( "int" | "bool" ) 
 
 funcDecl = "func" IDENTIFIER "(" [ paramList ] ")" [ type ] block
 
@@ -44,6 +44,7 @@ ifTail = "if" expr block [ "else" ifTail ]
 stmtTail = ":=" expr ";" 
     | "=" expr ";"
     | "(" [ argList ] ")" ";" 
+    | "[" expr "]" "=" expr ";"
 
 printStmt = ( "print" | "println" ) "(" printArg { "," printArg } ")" ";"
 
@@ -77,3 +78,4 @@ primary     = INT_LIT
             | "(" expr ")"
 
 primaryTail = "(" [ argList ] ")" 
+            | "[" expr "]"

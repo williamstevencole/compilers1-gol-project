@@ -26,6 +26,8 @@ enum class TokenID{
     CLOSE_PAR,
     OPEN_BRACE,
     CLOSE_BRACE,
+    OPEN_BRACK,
+    CLOSE_BRACK,
     OP_LT,
     OP_GT,
     OP_ASSIGN,
@@ -88,6 +90,8 @@ struct Token {
             case TokenID::CLOSE_PAR:        result = "CLOSE_PAR"; break;
             case TokenID::OPEN_BRACE:       result = "OPEN_BRACE"; break;
             case TokenID::CLOSE_BRACE:      result = "CLOSE_BRACE"; break;
+            case TokenID::OPEN_BRACK:       result = "OPEN_BRACK"; break;
+            case TokenID::CLOSE_BRACK:      result = "CLOSE_BRACK"; break;
             case TokenID::OP_LT:            result = "OP_LT"; break;
             case TokenID::OP_GT:            result = "OP_GT"; break;
             case TokenID::OP_ASSIGN:        result = "OP_ASSIGN"; break;
@@ -116,6 +120,8 @@ struct Token {
             case TokenID::KW_REF:           result = "KW_REF"; break;
             case TokenID::KW_PRINT:         result = "KW_PRINT"; break;
             case TokenID::KW_PRINTLN:       result = "KW_PRINTLN"; break;
+            case TokenID::KW_BREAK:         result = "KW_BREAK"; break;
+            case TokenID::KW_CONTINUE:      result = "KW_CONTINUE"; break;
         }
 
         return std::format("{:<16} -> \"{}\"", result, lexeme);

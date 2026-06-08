@@ -1,0 +1,32 @@
+// busca el maximo de un array recorriendolo con un for + break
+// (el break se dispara si encuentra un sentinel -1)
+
+func findMax(ref a [6]int, n int) int {
+    var max int = a[0];
+    var i int = 1;
+
+    for i < n {
+        if a[i] == -1 {
+            break;   // marcador de fin temprano
+        }
+        if a[i] > max {
+            max = a[i];
+        }
+        i = i + 1;
+    }
+
+    return max;
+}
+
+func main() {
+    var values [6]int;
+    values[0] = 4;
+    values[1] = 12;
+    values[2] = 7;
+    values[3] = 9;
+    values[4] = -1;   // sentinel: deberia parar aqui
+    values[5] = 99;   // este no se considera
+
+    var m int = findMax(&values, 6);
+    println("max = ", m);
+}

@@ -46,7 +46,9 @@ class Lexer{
             {"(", TokenID::OPEN_PAR},
             {")", TokenID::CLOSE_PAR},
             {"{", TokenID::OPEN_BRACE},
-            {"}", TokenID::CLOSE_BRACE}
+            {"}", TokenID::CLOSE_BRACE},
+            {"[", TokenID::OPEN_BRACK},
+            {"]", TokenID::CLOSE_BRACK}
         };
 
     public: 

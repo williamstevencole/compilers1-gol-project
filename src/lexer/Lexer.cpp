@@ -11,7 +11,7 @@ Token Lexer::nextToken(){
                 if(ch == EOF){
                     return { TokenID::ENDOFFILE, "<<EOF>>"};
                 } else if(
-                    (ch >= '[' && ch <= '^') ||
+                    ch == '^' ||
                     ch == '`' ||
                     (ch >= '~' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '\b') ||
@@ -42,7 +42,9 @@ Token Lexer::nextToken(){
                     (ch >= '(' && ch <= '-') ||
                     (ch == ';' ) ||
                     (ch == '{') ||
-                    ( ch == '}')
+                    ( ch == '}') ||
+                    ( ch == '[') ||
+                    ( ch == ']')
                 ){
                     state = States::SINGLE_OP;
                     ss << static_cast<char>(ch);

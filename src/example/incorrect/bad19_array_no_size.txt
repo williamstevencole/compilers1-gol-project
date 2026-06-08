@@ -1,0 +1,5 @@
+// type = [ "[" INT_LIT "]" ] ( "int" | "bool" )
+// el tamaño es obligatorio dentro de los brackets
+func main() {
+    var a []int;
+}

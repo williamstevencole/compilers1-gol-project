@@ -1,0 +1,18 @@
+// arrays segun seccion 11 del spec: var a [10]int.
+// declaracion, asignacion por indice y lectura por indice.
+
+func main() {
+    var a [5]int;
+    a[0] = 10;
+    a[1] = 20;
+    a[2] = 30;
+    a[3] = 40;
+    a[4] = 50;
+
+    var first int = a[0];
+    var last  int = a[4];
+
+    println("first = ", first);
+    println("last  = ", last);
+    println("middle = ", a[2]);
+}

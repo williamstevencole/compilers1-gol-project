@@ -1,0 +1,4 @@
+// falta ']' despues del tamaño del array
+func main() {
+    var a [10 int;
+}
