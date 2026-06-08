@@ -10,8 +10,8 @@ int main(){
     Lexer l(file);
     Token currToken;
 
-    while(currToken.id != TokenID::ENDOFFILE){
+    do{
         currToken = l.nextToken();
         std::cout << currToken.toString() << "\n";
-    }
+    }while(currToken.id != TokenID::ENDOFFILE);
 }
