@@ -121,11 +121,14 @@ Token Lexer::nextToken(){
                     consume();
                 } else if(
                     (ch >= '#' && ch <= '[') ||
-                    (ch <= ']' && ch <= 0xff) ||
+                    (ch >= ']' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '!')
                 ){
                     state = 17;
                     ss << static_cast<char>(ch);
+                    consume();
+                } else if(ch == '\\'){
+                    state = 29;
                     consume();
                 }
                 break;
