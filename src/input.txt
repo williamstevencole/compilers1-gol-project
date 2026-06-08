@@ -5,22 +5,22 @@ func add(a int, b int) int {
     return a + b; // suma dos numeros
 }
 
-/*
+/*prueba prueba
 
 deberi addde
 ignras
 
 esto
 asacsa
-*/
+asas*/
 
 func addRef(ref a int, ref b int) { 
-    a = a + b + 10 - (a - b)*5; // operacion matematica
+    //comment
+    a = a + b + 10 - (a - b)*5; //operacion matematica
 }
 
 
 func main() {
-    var result int;
     result := add(x, y); 
     print(result); // se imprime resultado
 }
