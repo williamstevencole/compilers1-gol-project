@@ -1,14 +1,20 @@
 #include "lexer/Lexer.hpp"
 #include "parser/Parser.hpp"
 
-int main(){
-    std::ifstream file("input.txt");
+int main(int argc, char* argv[]){
+
+    if(argc < 2){
+        std::cerr << "Usage: "<< argv[0] << " <filename>";
+    }
+    std::ifstream file(argv[1]);
+
     if(!file){
-        throw std::runtime_error("El archivo no existe");
+        std::cerr << "Error opening file: " << argv[1];
     }
 
     Lexer l(file);
     Parser p(l);
+
     Token currToken;
 
     /*
