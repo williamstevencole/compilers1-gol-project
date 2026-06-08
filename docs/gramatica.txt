@@ -15,7 +15,7 @@ varDecl = "var" IDENTIFIER type [ "=" expr ] ";"
 
 type = "int" | "bool"
 
-funDecl = "func" IDENTIFIER "(" [ paramList ] ")" [ type ] block
+funcDecl = "func" IDENTIFIER "(" [ paramList ] ")" [ type ] block
 
 paramList = param { ","  param } 
 param = [ "ref" ] IDENTIFIER type
