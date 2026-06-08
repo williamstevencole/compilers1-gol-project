@@ -1,0 +1,12 @@
+// llaves y parentesis desbalanceados
+
+var n int = 3;
+
+func square(x int) int {
+    return x * x;
+// falta la llave de cierre del bloque
+
+func main() {
+    var v int = square(n;   // falta ')' antes del ';'
+    print(v);
+}

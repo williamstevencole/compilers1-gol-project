@@ -1,0 +1,33 @@
+// declaraciones de funciones e ifs mal formados
+
+// falta el IDENTIFIER de la funcion
+func (a int, b int) int {
+    return a + b;
+}
+
+// parametro sin tipo
+func broken(a, b int) int {
+    return a + b;
+}
+
+// 'ref' en el lugar equivocado
+func swap(a ref int, b ref int) {
+    var t int = a;
+    a = b;
+    b = t;
+}
+
+func main() {
+    // 'if' sin expresion de condicion
+    if {
+        print(1);
+    }
+
+    // 'else' sin 'if' previo en la misma cadena
+    else {
+        print(2);
+    }
+
+    // print sin parentesis
+    print "hola";
+}

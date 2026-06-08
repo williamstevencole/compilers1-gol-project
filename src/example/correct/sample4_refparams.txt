@@ -1,0 +1,33 @@
+// intercambia dos enteros por referencia
+func swap(ref a int, ref b int) {
+    var tmp int = a;
+    a = b;
+    b = tmp;
+}
+
+func increment(ref n int) {
+    n = n + 1; // mutacion por referencia
+}
+
+/* acumula la suma de dos valores
+   en el primer parametro */
+func addInto(ref acc int, value int) {
+    acc = acc + value;
+}
+
+func main() {
+    var x int = 100;
+    var y int = 200;
+
+    swap(&x, &y);
+    increment(&x);
+    increment(&y);
+
+    var total int = 0;
+    addInto(&total, x);
+    addInto(&total, y);
+
+    print("x = ", x);
+    print("y = ", y);
+    println("total = ", total);
+}

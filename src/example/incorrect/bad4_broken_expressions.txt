@@ -1,0 +1,14 @@
+// expresiones incompletas o con operadores invalidos
+
+var a int = 1;
+var b int = 2;
+
+func main() {
+    var c int = a + ;        // falta el operando derecho
+    var d int = * b;         // '*' no es un operador unario valido
+    var e bool = a == == b;  // doble operador relacional
+    var f int = (a + b;      // parentesis sin cerrar en la expresion
+    var g int = a +/ b;      // operadores adyacentes invalidos
+
+    print(c, d, e, f, g);
+}

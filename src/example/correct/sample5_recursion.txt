@@ -1,0 +1,34 @@
+// factorial recursivo
+func factorial(n int) int {
+    if n <= 1 {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+/* fibonacci de forma recursiva
+   con doble llamada por nivel */
+func fib(n int) int {
+    if n < 2 {
+        return n;
+    }
+    return fib(n - 1) + fib(n - 2);
+}
+
+// maximo comun divisor (Euclides)
+func gcd(a int, b int) int {
+    if b == 0 {
+        return a;
+    }
+    return gcd(b, a % b);
+}
+
+func main() {
+    var f int = factorial(6);
+    var g int = fib(10);
+    var d int = gcd(48, 18);
+
+    println("6! = ", f);
+    println("fib(10) = ", g);
+    println("gcd(48,18) = ", d);
+}

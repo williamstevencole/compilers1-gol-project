@@ -1,0 +1,11 @@
+// declaraciones de variables malformadas
+
+var int = 5;           // falta el IDENTIFIER
+var z string = "hola"; // 'string' no es un tipo valido (solo int | bool)
+var w bool;            // declaracion ok pero...
+var = true;            // ...esta no tiene nombre ni tipo
+
+func main() {
+    var 123 int = 0;   // el nombre no puede ser un literal entero
+    print(w);
+}

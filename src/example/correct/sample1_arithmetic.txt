@@ -1,0 +1,29 @@
+var a int = 15;
+var b int = 7;
+
+// resta dos numeros
+func sub(x int, y int) int {
+    return x - y;
+}
+
+func mul(x int, y int) int {
+    return x * y; // producto
+}
+
+/* combina varias operaciones
+   en una sola expresion */
+func mix(x int, y int) int {
+    return (x + y) * 2 - x / y % 3;
+}
+
+func main() {
+    var diff int;
+    diff = sub(a, b);
+
+    var prod int = mul(a, b);
+    var combo int = mix(a, b);
+
+    print(diff);
+    print(prod);
+    println(combo);
+}

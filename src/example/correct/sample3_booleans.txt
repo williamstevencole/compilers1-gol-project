@@ -1,0 +1,32 @@
+var debug bool = true;
+var verbose bool = false;
+
+// chequea si n esta dentro de [lo, hi]
+func isInRange(n int, lo int, hi int) bool {
+    return n >= lo && n <= hi;
+}
+
+func isEven(n int) bool {
+    return n % 2 == 0;
+}
+
+/* combina varias condiciones booleanas
+   con &&, || y ! */
+func shouldLog(level int) bool {
+    return debug && (verbose || level > 3) && !(level == 0);
+}
+
+func main() {
+    var x int = 42;
+    var valid bool = isInRange(x, 0, 100) && isEven(x);
+
+    if valid {
+        println("valido y par");
+    } else if !valid {
+        println("invalido o impar");
+    }
+
+    if shouldLog(5) {
+        print("log activo");
+    }
+}
