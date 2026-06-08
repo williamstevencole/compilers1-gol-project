@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../utils/Tokens.hpp"
+#include "../utils/States.hpp"
 #include <sstream>
 #include <iostream>
 #include <fstream>
@@ -31,6 +32,19 @@ class Lexer{
             {"ref",     TokenID::KW_REF},
             {"print",   TokenID::KW_PRINT},
             {"println", TokenID::KW_PRINTLN}
+        };
+
+        std::unordered_map<std::string, TokenID> single_ops = {
+            {"+", TokenID::OP_ADD},
+            {"-", TokenID::OP_MINUS},
+            {"*", TokenID::OP_MUL},
+            {"%", TokenID::OP_MOD},
+            {";", TokenID::SEMICOLON},
+            {",", TokenID::COMMA},
+            {"(", TokenID::OPEN_PAR},
+            {")", TokenID::CLOSE_PAR},
+            {"{", TokenID::OPEN_BRACE},
+            {"}", TokenID::CLOSE_BRACE}
         };
 
     public: 

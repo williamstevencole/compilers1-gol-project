@@ -1,16 +1,17 @@
 #include "Lexer.hpp"
+#include "../utils/States.hpp"
 
 Token Lexer::nextToken(){
-    int state = 0;
+    States state = States::INITIAL;
     std::ostringstream  ss;
 
     do{
         switch(state){
-            case 0:
+            case States::INITIAL:
                 if(ch == EOF){
                     return { TokenID::ENDOFFILE, "<<EOF>>"};
                 } else if(
-                    (ch >= '[' && ch <= '^') || 
+                    (ch >= '[' && ch <= '^') ||
                     ch == '`' ||
                     (ch >= '~' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '\b') ||
@@ -20,58 +21,58 @@ Token Lexer::nextToken(){
                     ch == '.' ||
                     (ch >= '?' && ch <= '@')
                 ){
-                    state = 1;
+                    state = States::UNK;
                     consume();
                 } else if(ch == '\n'){
-                    state = 15;
+                    state = States::WHITESPACE;
                     consume();
                 } else if ( ch == '\t' || ch == '\x20'){
-                    state = 2;
+                    state = States::WHITESPACE_LEAD;
                     consume();
                 } else if(ch == '!'){
-                    state = 3;
+                    state = States::OP_NOT;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '"'){
-                    state = 4;
+                    state = States::STR_START;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(
                     ( ch == '%') ||
-                    (ch >= '(' && ch <= '-') || 
+                    (ch >= '(' && ch <= '-') ||
                     (ch == ';' ) ||
                     (ch == '{') ||
                     ( ch == '}')
                 ){
-                    state = 5;
+                    state = States::SINGLE_OP;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '&'){
-                    state= 6;
+                    state = States::AMPERSAND;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if( ch == '/'){
-                    state = 7;
+                    state = States::SLASH;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(ch >= '0' && ch <= '9'){
-                    state = 8;
+                    state = States::INT_FIRST;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if (ch == ':'){
-                    state = 9;
+                    state = States::COLON;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if (ch == '<'){
-                    state = 10;
+                    state = States::OP_LT;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if (ch == '='){
-                    state = 11;
+                    state = States::OP_ASSIGN;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '>'){
-                    state = 12;
+                    state = States::OP_GT;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(
@@ -79,12 +80,12 @@ Token Lexer::nextToken(){
                     (ch == '_') ||
                     (ch >= 'a' && ch <= 'z')
                 ){
-                    state = 13;
+                    state = States::IDENT_FIRST;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '|'){
-                    state = 14;
-                    ss << static_cast<char>(ch); 
+                    state = States::PIPE;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     ss << static_cast<char>(ch);
@@ -93,20 +94,20 @@ Token Lexer::nextToken(){
                 }
                 break;
 
-            case 1:
+            case States::UNK:
                 return {TokenID::UNK, ss.str()};
                 break;
-            case 2:
+            case States::WHITESPACE_LEAD:
                 if( ch == '\x20' || (ch >= '\t' && ch <= '\n')){
-                    state = 15;
+                    state = States::WHITESPACE;
                     consume();
                 } else {
-                    state = 0;
+                    state = States::INITIAL;
                 }
                 break;
-            case 3:
+            case States::OP_NOT:
                 if(ch == '='){
-                    state = 16;
+                    state = States::OP_NEQ;
                     ss << static_cast<char>(ch);
                     consume();
                 } else{
@@ -114,9 +115,9 @@ Token Lexer::nextToken(){
                 }
                 break;
 
-            case 4:
+            case States::STR_START:
                 if(ch == '"'){
-                    state = 28;
+                    state = States::STR_END;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(
@@ -124,110 +125,102 @@ Token Lexer::nextToken(){
                     (ch >= ']' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '!')
                 ){
-                    state = 17;
+                    state = States::STR_REST;
                     ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '\\'){
-                    state = 29;
+                    state = States::STR_ESCAPE;
                     consume();
                 }
                 break;
 
-            case 5: {
-                std::string lexeme = ss.str();
-                if (lexeme == "+") return { TokenID::OP_ADD, lexeme };
-                if (lexeme == "-") return { TokenID::OP_MINUS, lexeme };
-                if (lexeme == "*") return { TokenID::OP_MUL, lexeme };
-                if (lexeme == "%") return { TokenID::OP_MOD, lexeme };
-                if (lexeme == ";") return { TokenID::SEMICOLON, lexeme };
-                if (lexeme == ",") return { TokenID::COMMA, lexeme };
-                if (lexeme == "(") return { TokenID::OPEN_PAR, lexeme };
-                if (lexeme == ")") return { TokenID::CLOSE_PAR, lexeme };
-                if (lexeme == "{") return { TokenID::OPEN_BRACE, lexeme };
-                if (lexeme == "}") return { TokenID::CLOSE_BRACE, lexeme };
+            case States::SINGLE_OP: {
+                auto it = single_ops.find(ss.str());
+                if(it != single_ops.end()) return { it->second, ss.str()};
                 
-                return { TokenID::UNK, lexeme };
+                return { TokenID::UNK, ss.str()};
                 break;
             }
-            case 6:
+
+            case States::AMPERSAND:
                 if(ch == '&'){
-                    state = 18;
+                    state = States::OP_AND;
                     ss << static_cast<char>(ch);
                     consume();
                 }else {
                     return {TokenID::OP_REF, ss.str()};
                 }
                 break;
-            case 7:
+            case States::SLASH:
                 if(ch == '*'){
-                    ss.str(""); 
+                    ss.str("");
                     ss.clear();
 
-                    state = 19;
+                    state = States::BLOCK_COMMENT;
                     consume();
                 } else if( ch == '/'){
-                    ss.str(""); 
+                    ss.str("");
                     ss.clear();
-                    
-                    state = 20;
+
+                    state = States::LINE_COMMENT;
                     consume();
                 } else {
                     return {TokenID::OP_DIV, ss.str()};
                 }
                 break;
-            case 8:
+            case States::INT_FIRST:
                 if( ch >= '0' && ch <= '9'){
-                    state = 21;
+                    state = States::INT_REST;
                     ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return { TokenID::INT_LIT, ss.str()};
                 }
                 break;
-            case 9:
+            case States::COLON:
                 if(ch == '='){
-                    state = 22;
+                    state = States::ASSIGN_SHORT;
                     ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return { TokenID::UNK, ss.str()};
                 }
                 break;
-            case 10:
+            case States::OP_LT:
                 if(ch == '='){
-                    state = 23;
+                    state = States::OP_LEQ;
                     ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return {TokenID::OP_LT, ss.str()};
                 }
                 break;
-            case 11:
+            case States::OP_ASSIGN:
                 if(ch == '='){
-                    state = 24;
+                    state = States::OP_EQ;
                     ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return {TokenID::OP_ASSIGN, ss.str()};
                 }
                 break;
-            case 12:
+            case States::OP_GT:
                 if(ch == '='){
-                    state = 25;
+                    state = States::OP_GEQ;
                     ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return {TokenID::OP_GT, ss.str()};
                 }
                 break;
-            case 13: {
+            case States::IDENT_FIRST: {
                 if(
                     (ch >= '0' && ch <= '9') ||
                     (ch >= 'A' && ch <= 'Z') ||
                     (ch >= 'a' && ch <= 'z') ||
                     ch == '_'
                 ){
-                    state = 26;
+                    state = States::IDENT_REST;
                     ss << static_cast<char>(ch);
                     consume();
                 } else {
@@ -240,24 +233,24 @@ Token Lexer::nextToken(){
                 }
                 break;
             }
-            case 14:
+            case States::PIPE:
                 if(ch == '|'){
-                    state = 27;
+                    state = States::OP_OR;
                     ss << static_cast<char>(ch);
                     consume();
                 }else {
                     return {TokenID::UNK, ss.str()};
                 }
                 break;
-            case 15:
+            case States::WHITESPACE:
                 while(ch == '\x20' || ch >= '\t' && ch <= '\n'){
                     consume();
                 }
-                state = 0;
+                state = States::INITIAL;
                 break;
-            case 16:
+            case States::OP_NEQ:
                 return {TokenID::OP_NOT, ss.str()};
-            case 17:
+            case States::STR_REST:
                 while(
                     (ch >= ']' && ch <= 0xff) ||
                     (ch >= '#' && ch <= '[') ||
@@ -267,21 +260,21 @@ Token Lexer::nextToken(){
                 }
 
                 if(ch >= '\"'){
-                    state = 28;
+                    state = States::STR_END;
                     ss << static_cast<char>(ch);
                     consume();
                 }
 
                 else if(ch == '\\'){
-                    state = 29;
+                    state = States::STR_ESCAPE;
                     consume();
                 }
                 break;
-            
-            case 18:
+
+            case States::OP_AND:
                 return {TokenID::OP_AND, ss.str()};
 
-            case 19:
+            case States::BLOCK_COMMENT:
                 while(
                     (ch >= '+' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= ')')
@@ -290,17 +283,17 @@ Token Lexer::nextToken(){
                 }
 
                 if(ch == '*'){
-                    state = 30;
+                    state = States::BLOCK_COMMENT_STAR;
                     consume();
                 } else if(ch==EOF) {
-                    return {TokenID::UNK, ss.str()}; 
+                    return {TokenID::UNK, ss.str()};
                 } else {
-                    state = 19; 
+                    state = States::BLOCK_COMMENT;
                     consume();
                 }
                 break;
 
-            case 20:
+            case States::LINE_COMMENT:
                 while(
                     (ch >= '\v' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '\t')
@@ -311,29 +304,29 @@ Token Lexer::nextToken(){
                 ss.clear();
                 consume();
 
-                state = 0;
+                state = States::INITIAL;
                 break;
-            
-            case 21:
+
+            case States::INT_REST:
                 while(ch >= '0' && ch <= '9'){
                     ss << static_cast<char>(ch);
                     consume();
                 }
                 return {TokenID::INT_LIT, ss.str()};
-            
-            case 22:
+
+            case States::ASSIGN_SHORT:
                 return {TokenID::OP_ASSIGN_SHORT, ss.str()};
-                
-            case 23:
+
+            case States::OP_LEQ:
                 return {TokenID::OP_LEQ, ss.str()};
-            
-            case 24:
+
+            case States::OP_EQ:
                 return {TokenID::OP_EQ, ss.str()};
-            
-            case 25:
+
+            case States::OP_GEQ:
                 return {TokenID::OP_GEQ, ss.str()};
-            
-            case 26: {
+
+            case States::IDENT_REST: {
                 while(
                     (ch >= '0' && ch <= '9') ||
                     (ch >= 'A' && ch <= 'Z') ||
@@ -353,50 +346,50 @@ Token Lexer::nextToken(){
                 break;
             }
 
-            case 27:
+            case States::OP_OR:
                 return {TokenID::OP_OR, ss.str()};
-            
-            case 28:
+
+            case States::STR_END:
                 return {TokenID::STRING_LIT, ss.str()};
 
-            case 29:
+            case States::STR_ESCAPE:
                 if(
                     (ch >= '\0' && ch <= '\t') ||
                     (ch >= '\v' && ch <= 0xff)
                 ){
-                    state = 17;
+                    state = States::STR_REST;
                     ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return { TokenID::UNK, ss.str()};
                 }
                 break;
-            
-            case 30:
+
+            case States::BLOCK_COMMENT_STAR:
                 if(ch == '/'){
-                    state = 31;
+                    state = States::BLOCK_COMMENT_END;
                     consume();
                 } else if(ch == '*'){
-                    state = 32;
+                    state = States::BLOCK_COMMENT_STARS;
                     consume();
                 } else {
-                    state = 19;
+                    state = States::BLOCK_COMMENT;
                     consume();
                 }
                 break;
 
-            case 31:
-                state = 0;
+            case States::BLOCK_COMMENT_END:
+                state = States::INITIAL;
                 ss.clear();
                 ss.str("");
                 break;
 
-            case 32:
+            case States::BLOCK_COMMENT_STARS:
                 if (ch == '*') {
-                    state = 32;
+                    state = States::BLOCK_COMMENT_STARS;
                     consume();
                 } else if (ch == '/') {
-                    state = 31; 
+                    state = States::BLOCK_COMMENT_END;
                     consume();
                 } else if (ch == EOF) {
                     return {TokenID::UNK, ss.str()};
@@ -405,10 +398,10 @@ Token Lexer::nextToken(){
                     (ch >= '\0' && ch <= ')') ||
                     (ch >= '+' && ch <= '.')
                 ){
-                    state = 19;
+                    state = States::BLOCK_COMMENT;
                     consume();
                 }
                 break;
-        }   
+        }
     }while(true);
 }

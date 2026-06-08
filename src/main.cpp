@@ -4,12 +4,12 @@
 int main(int argc, char* argv[]){
 
     if(argc < 2){
-        std::cerr << "Usage: "<< argv[0] << " <filename>";
+        throw std::runtime_error(std::string("Usage: ") + argv[0] + " <filename>");
     }
     std::ifstream file(argv[1]);
 
     if(!file){
-        std::cerr << "Error opening file: " << argv[1];
+        throw std::runtime_error(std::string("Error opening file, probably does not exist: ") + argv[1]);
     }
 
     Lexer l(file);
