@@ -4,7 +4,7 @@ Token Lexer::nextToken(){
     int state = 0;
     std::ostringstream  ss;
 
-    while(true){
+    do{
         switch(state){
             case 0:
                 if(ch == EOF){
@@ -12,7 +12,7 @@ Token Lexer::nextToken(){
                 } else if(
                     (ch >= '[' && ch <= '^') || 
                     ch == '`' ||
-                    (ch >= '~' && ch <= '\xff') ||
+                    (ch >= '~' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '\b') ||
                     (ch >= '\v' && ch <= '\x1f') ||
                     (ch >= '#' && ch <= '$') ||
@@ -22,54 +22,57 @@ Token Lexer::nextToken(){
                 ){
                     state = 1;
                     consume();
+                } else if(ch == '\n'){
+                    state = 15;
+                    consume();
                 } else if ( ch == '\t' || ch == '\x20'){
                     state = 2;
                     consume();
                 } else if(ch == '!'){
                     state = 3;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '"'){
                     state = 4;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(
                     ( ch == '%') ||
-                    (ch >= '(' && ch == '-') || 
+                    (ch >= '(' && ch <= '-') || 
                     (ch == ';' ) ||
                     (ch == '{') ||
                     ( ch == '}')
                 ){
                     state = 5;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '&'){
                     state= 6;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if( ch == '/'){
                     state = 7;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(ch >= '0' && ch <= '9'){
                     state = 8;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if (ch == ':'){
                     state = 9;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if (ch == '<'){
                     state = 10;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if (ch == '='){
                     state = 11;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '>'){
                     state = 12;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(
                     (ch >= 'A' && ch <= 'Z') ||
@@ -77,13 +80,15 @@ Token Lexer::nextToken(){
                     (ch >= 'a' && ch <= 'z')
                 ){
                     state = 13;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(ch == '|'){
                     state = 14;
-                    ss << ch; 
+                    ss << static_cast<char>(ch); 
                     consume();
                 } else {
+                    ss << static_cast<char>(ch);
+                    consume();
                     return {TokenID::UNK, ss.str()};
                 }
                 break;
@@ -96,14 +101,13 @@ Token Lexer::nextToken(){
                     state = 15;
                     consume();
                 } else {
-                    state = 1;
-                    consume();
+                    state = 0;
                 }
                 break;
             case 3:
                 if(ch == '='){
                     state = 16;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else{
                     return {TokenID::OP_NOT, ss.str()};
@@ -113,15 +117,15 @@ Token Lexer::nextToken(){
             case 4:
                 if(ch == '"'){
                     state = 28;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else if(
                     (ch >= '#' && ch <= '[') ||
-                    (ch <= ']' && ch <= '\xff') ||
+                    (ch <= ']' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '!')
                 ){
                     state = 17;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 }
                 break;
@@ -145,7 +149,7 @@ Token Lexer::nextToken(){
             case 6:
                 if(ch == '&'){
                     state = 18;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 }else {
                     return {TokenID::OP_REF, ss.str()};
@@ -153,9 +157,15 @@ Token Lexer::nextToken(){
                 break;
             case 7:
                 if(ch == '*'){
+                    ss.str(""); 
+                    ss.clear();
+
                     state = 19;
                     consume();
                 } else if( ch == '/'){
+                    ss.str(""); 
+                    ss.clear();
+                    
                     state = 20;
                     consume();
                 } else {
@@ -165,7 +175,7 @@ Token Lexer::nextToken(){
             case 8:
                 if( ch >= '0' && ch <= '9'){
                     state = 21;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return { TokenID::INT_LIT, ss.str()};
@@ -174,7 +184,7 @@ Token Lexer::nextToken(){
             case 9:
                 if(ch == '='){
                     state = 22;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return { TokenID::UNK, ss.str()};
@@ -183,7 +193,7 @@ Token Lexer::nextToken(){
             case 10:
                 if(ch == '='){
                     state = 23;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return {TokenID::OP_LT, ss.str()};
@@ -192,7 +202,7 @@ Token Lexer::nextToken(){
             case 11:
                 if(ch == '='){
                     state = 24;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return {TokenID::OP_ASSIGN, ss.str()};
@@ -201,7 +211,7 @@ Token Lexer::nextToken(){
             case 12:
                 if(ch == '='){
                     state = 25;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return {TokenID::OP_GT, ss.str()};
@@ -215,7 +225,7 @@ Token Lexer::nextToken(){
                     ch == '_'
                 ){
                     state = 26;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     auto it = keywords.find(ss.str());
@@ -230,7 +240,7 @@ Token Lexer::nextToken(){
             case 14:
                 if(ch == '|'){
                     state = 27;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 }else {
                     return {TokenID::UNK, ss.str()};
@@ -246,7 +256,7 @@ Token Lexer::nextToken(){
                 return {TokenID::OP_NOT, ss.str()};
             case 17:
                 while(
-                    (ch >= ']' && ch <= '\xff') ||
+                    (ch >= ']' && ch <= 0xff) ||
                     (ch >= '#' && ch <= '[') ||
                     (ch >= '\0' && ch <= '!')
                 ){
@@ -255,7 +265,7 @@ Token Lexer::nextToken(){
 
                 if(ch >= '\"'){
                     state = 28;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 }
 
@@ -270,7 +280,7 @@ Token Lexer::nextToken(){
 
             case 19:
                 while(
-                    (ch >= '+' && ch <= '\xff') ||
+                    (ch >= '+' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= ')')
                 ){
                     consume();
@@ -279,25 +289,31 @@ Token Lexer::nextToken(){
                 if(ch == '*'){
                     state = 30;
                     consume();
+                } else if(ch==EOF) {
+                    return {TokenID::UNK, ss.str()}; 
+                } else {
+                    state = 19; 
+                    consume();
                 }
                 break;
 
             case 20:
                 while(
-                    (ch >= '\v' && ch <= '\xff') ||
+                    (ch >= '\v' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= '\t')
                 ){
                     consume();
                 }
                 ss.str("");
                 ss.clear();
+                consume();
 
                 state = 0;
                 break;
             
             case 21:
                 while(ch >= '0' && ch <= '9'){
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 }
                 return {TokenID::INT_LIT, ss.str()};
@@ -321,7 +337,7 @@ Token Lexer::nextToken(){
                     (ch >= 'a' && ch <= 'z') ||
                     ch == '_'
                 ){
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 }
 
@@ -343,10 +359,10 @@ Token Lexer::nextToken(){
             case 29:
                 if(
                     (ch >= '\0' && ch <= '\t') ||
-                    (ch >= '\v' && ch <= '\xff')
+                    (ch >= '\v' && ch <= 0xff)
                 ){
                     state = 17;
-                    ss << ch;
+                    ss << static_cast<char>(ch);
                     consume();
                 } else {
                     return { TokenID::UNK, ss.str()};
@@ -360,25 +376,29 @@ Token Lexer::nextToken(){
                 } else if(ch == '*'){
                     state = 32;
                     consume();
+                } else {
+                    state = 19;
+                    consume();
                 }
                 break;
 
             case 31:
-                state = 1;
+                state = 0;
                 ss.clear();
                 ss.str("");
                 break;
 
             case 32:
-                while (ch == '*') {
+                if (ch == '*') {
+                    state = 32;
                     consume();
-                } if (ch == '/') {
+                } else if (ch == '/') {
                     state = 31; 
                     consume();
                 } else if (ch == EOF) {
                     return {TokenID::UNK, ss.str()};
                 } else if(
-                    (ch >= '0' && ch <= '\xff') ||
+                    (ch >= '0' && ch <= 0xff) ||
                     (ch >= '\0' && ch <= ')') ||
                     (ch >= '+' && ch <= '.')
                 ){
@@ -387,5 +407,5 @@ Token Lexer::nextToken(){
                 }
                 break;
         }   
-    }
+    }while(true);
 }

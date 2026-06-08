@@ -14,7 +14,7 @@ class Lexer{
             ch = input.get();
         }
 
-        char ch;
+        int ch;
         std::istream& input;
 
         std::unordered_map<std::string, TokenID> keywords = {
