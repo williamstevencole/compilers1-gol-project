@@ -1,0 +1,13 @@
+// strings con secuencias de escape (\\, \", \n, \t)
+// el parser solo verifica que sea STRING_LIT, pero el lexer debe
+// preservar los caracteres '\' en el lexema para que evaluacion/codegen
+// luego pueda interpretarlos correctamente.
+
+func main() {
+    println("salto de linea:\nfin");
+    println("tab:\tcol");
+    println("con \"comillas\" adentro");
+    println("backslash al final: \\");
+    println("varios escapes: \\\"\n");
+    print("mix \"a\" y \\b y \"c\"");
+}

@@ -130,6 +130,7 @@ Token Lexer::nextToken(){
                     consume();
                 } else if(ch == '\\'){
                     state = States::STR_ESCAPE;
+                    ss << static_cast<char>(ch);
                     consume();
                 }
                 break;
@@ -256,10 +257,11 @@ Token Lexer::nextToken(){
                     (ch >= '#' && ch <= '[') ||
                     (ch >= '\0' && ch <= '!')
                 ){
+                    ss << static_cast<char>(ch);
                     consume();
                 }
 
-                if(ch >= '\"'){
+                if(ch == '"'){
                     state = States::STR_END;
                     ss << static_cast<char>(ch);
                     consume();
@@ -267,7 +269,12 @@ Token Lexer::nextToken(){
 
                 else if(ch == '\\'){
                     state = States::STR_ESCAPE;
+                    ss << static_cast<char>(ch);
                     consume();
+                }
+
+                else if(ch == EOF){
+                    return { TokenID::UNK, ss.str() };
                 }
                 break;
 

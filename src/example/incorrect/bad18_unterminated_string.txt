@@ -1,0 +1,6 @@
+// string sin comilla de cierre antes del EOF.
+// el lexer debe emitir un token UNK (o equivalente) sin colgarse,
+// y el parser debe rechazar el programa.
+func main() {
+    print("sin cerrar la comilla;
+}

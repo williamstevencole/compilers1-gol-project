@@ -1,0 +1,12 @@
+// strings largas y variadas: prueba que el lexema completo (no solo el
+// primer char) llega al parser tras los fixes en STR_REST.
+
+func main() {
+    println("una cadena bastante larga con varias palabras y simbolos: 1234567890");
+    println("incluye signos: ! # $ % & ( ) * + , - . / : ; < = > ? @ [ ] ^ _ ` { | } ~");
+    println("acentos no, pero si chars ASCII variados: abcdef ABCDEF");
+    println("a");
+    println("ab");
+    println("abc");
+    println("");
+}
